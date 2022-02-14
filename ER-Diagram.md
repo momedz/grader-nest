@@ -1,45 +1,46 @@
 ```mermaid
 erDiagram
   Users {
-    long id
+    int id PK
     string name
   }
   UserChallenges {
-    long id
-    long user_id
-    long challenge_id
-    long score
+    int id PK
+    int user_id FK
+    int challenge_id FK
+    int score
     string testcase_answer
   }
   UserChallengeTestCases {
-    long id
-    long user_challenge_id
-    long testcase_id
+    int id PK
+    int user_challenge_id FK
+    int testcase_id
     string state
   }
   Chapters {
-    long id
+    int id PK
     string title
   }
   Challenges {
-    long id
-    long chapter_id
+    int id PK
+    int chapter_id FK
     string title
     string description
     string language
+    string difficulty
     string level
   }
-  TestCaseExamples {
-    long id
-    long challenge_id
-    string input
-    string output
-  }
   TestCases {
-    long id
-    long challenge_id
+    int id PK
+    int challenge_id FK
     string input
     string output
   }
-  User }0--0{ UserChallenges
+  Users }|--o{ UserChallenges : submit
+  UserChallenges ||--|{ UserChallengeTestCases : check
+  Chapters ||--|{ Challenges : create
+  Challenges ||--|{ TestCases : create
+  Challenges ||--o{ UserChallenges : submit
+  TestCases ||--o{ UserChallengeTestCases : validate
+
 ```
