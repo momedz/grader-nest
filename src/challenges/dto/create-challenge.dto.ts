@@ -1,3 +1,3 @@
-export class CreateChallenge {
-  name: string;
-}
+import { Challenge } from '../models/challenge.model';
+
+export class CreateChallengeDTO extends Challenge {}

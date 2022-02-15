@@ -1,17 +1,31 @@
-import { BelongsTo, Column, DataType, ForeignKey, Model, Table } from 'sequelize-typescript';
+import { UUIDV4 } from 'sequelize';
+import {
+  AllowNull,
+  BelongsTo,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  Model,
+  PrimaryKey,
+  Table,
+} from 'sequelize-typescript';
 import { Challenge } from 'src/challenges/models/challenge.model';
 
 @Table({
-  modelName: 'testcases',
+  modelName: 'testcase',
   timestamps: true,
   deletedAt: true,
 })
 export class TestCase extends Model {
-  @Column
-  name: string;
+  @Default(UUIDV4)
+  @PrimaryKey
+  @Column(DataType.UUID)
+  id: string;
 
+  @AllowNull(false)
   @ForeignKey(() => Challenge)
-  @Column(DataType.INTEGER)
+  @Column(DataType.UUID)
   challenge_id: number;
 
   @BelongsTo(() => Challenge, 'challenge_id')

@@ -1,35 +1,50 @@
-import { BelongsTo, Column, DataType, Default, ForeignKey, HasMany, NotEmpty, NotNull } from 'sequelize-typescript';
+import { UUIDV4 } from 'sequelize';
+import {
+  AllowNull,
+  BelongsTo,
+  Column,
+  DataType,
+  Default,
+  ForeignKey,
+  HasMany,
+  PrimaryKey,
+} from 'sequelize-typescript';
 import { Model, Table } from 'sequelize-typescript';
 import { Chapter } from 'src/chapters/models/chapter.model';
 import { TestCase } from 'src/testcases/models/testcase.model';
-import internal from 'stream';
+
 @Table({
   modelName: 'challenge',
   timestamps: true,
   deletedAt: true,
 })
 export class Challenge extends Model {
+  @Default(UUIDV4)
+  @PrimaryKey
+  @Column(DataType.UUID)
+  id: string;
+
+  @AllowNull(false)
   @ForeignKey(() => Chapter)
-  @Column(DataType.INTEGER)
-  chapter_id: number;
+  @Column(DataType.UUID)
+  chapter_id: string;
 
   @BelongsTo(() => Chapter, 'chapter_id')
   chapter: Chapter;
 
-  @NotEmpty
+  @AllowNull(false)
   @Column
   title: string;
 
-  @NotEmpty
+  @AllowNull(false)
   @Column(DataType.TEXT)
   description: string;
 
-  @NotEmpty
+  @AllowNull(false)
   @Default('NORMAL')
   @Column(DataType.ENUM('NORMAL', 'HARD'))
   difficulty: string;
 
-  @NotEmpty
   @Default(0)
   @Column(DataType.TINYINT)
   level: number;

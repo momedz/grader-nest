@@ -1,11 +1,23 @@
 version: "3"
 
 services:
-  mysql:
-    image: mysql:latest
-    restart: always
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
-      MYSQL_ROOT_PASSWORD: 
+  # mysql:
+  #   image: mysql:latest
+  #   restart: always
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: true
+  #     MYSQL_ROOT_PASSWORD: 
+  #   ports:
+  #     - "3306:3306"
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    container_name: rabbitmq
     ports:
-      - "3306:3306"
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./.rabbit-mq:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_HIPE_COMPILE: 1
